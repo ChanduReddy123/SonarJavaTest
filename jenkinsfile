@@ -11,7 +11,7 @@ pipeline{
               script{
                    timeout(time: 1, unit: 'HOURS') {
                    def response = waitForQualityGate()
-                   echo response.status
+                   echo response.conditions[0].metric
               }
               }
             }
