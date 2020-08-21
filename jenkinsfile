@@ -3,10 +3,35 @@ pipeline{
         label "master"
     }
     stages{
-        stage("build & SonarQube analysis"){
+        stage("myapp0"){
             steps{
                withSonarQubeEnv('sonar-1') {
-                sh 'mvn clean package sonar:sonar'
+                sh '''
+                cd myapp
+                mvn clean package sonar:sonar \
+                    -Dsonar.projectKey=myapp0 \
+                    -Dsonar.host.url=http://54.146.74.127:9000 \
+                    -Dsonar.login=1fd6361916254a03a909528a6e825d9516915ae6
+                '''
+              }
+              script{
+                   timeout(time: 1, unit: 'HOURS') {
+                   def response = waitForQualityGate()
+                   println(response.getClass())
+              }
+              }
+            }
+        }
+        stage("myapp1"){
+            steps{
+               withSonarQubeEnv('sonar-1') {
+                sh '''
+                cd myapp1
+                mvn clean package sonar:sonar \
+                    -Dsonar.projectKey=myapp1 \
+                    -Dsonar.host.url=http://54.146.74.127:9000 \
+                    -Dsonar.login=1fd6361916254a03a909528a6e825d9516915ae6
+                '''
               }
               script{
                    timeout(time: 1, unit: 'HOURS') {

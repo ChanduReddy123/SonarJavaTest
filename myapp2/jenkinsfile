@@ -1,0 +1,35 @@
+pipeline{
+    agent{
+        label "master"
+    }
+    stages{
+        stage("build & SonarQube analysis"){
+            steps{
+               withSonarQubeEnv('sonar-1') {
+                sh 'mvn clean package sonar:sonar'
+              }
+              script{
+                   timeout(time: 1, unit: 'HOURS') {
+                   def response = waitForQualityGate()
+                   println(response.getClass())
+              }
+              }
+            }
+        }
+        // stage("Quality gate check"){
+        //     steps{
+        //         timeout(time: 1, unit: 'HOURS') {
+        //         def qg = waitForQualityGate()
+        //         echo qg
+        //       }
+        //     }
+        // }
+    }
+    
+}
+// void getStatus() {
+//     timeout(time: 1, unit: 'HOURS') {
+//                 def qg = waitForQualityGate()
+//                 echo qg
+//               }
+// }
