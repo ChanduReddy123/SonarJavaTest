@@ -5,6 +5,9 @@ pipeline{
     stages{
         stage("build the application"){
             steps{
+                sh '''
+                ls
+                '''
             }
             post{
                 always{
