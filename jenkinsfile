@@ -10,8 +10,8 @@ pipeline{
               }
               script{
                    timeout(time: 1, unit: 'HOURS') {
-                   def qg = waitForQualityGate()
-                   echo qa.status
+                   def response = waitForQualityGate()
+                   echo response.status
               }
               }
             }
