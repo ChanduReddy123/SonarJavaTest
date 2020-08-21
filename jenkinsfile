@@ -70,9 +70,9 @@ pipeline{
         }
         stage("Conditonal Check flagship"){
             when{
-                anyOf{
+                allOf{
                     expression{modules == "OK"}
-                    expression{sharedui =="OK"}
+                    expression{sharedui == "OK"}
                     expression{flagship == "OK"}
                 }
             }
