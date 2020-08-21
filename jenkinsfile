@@ -1,5 +1,5 @@
-def firetv = "OK"
-def flagship = "NOK"
+def firetv = "NOK"
+def flagship = "OK"
 def modules = "OK"
 def sharedui ="OK"
 pipeline{
