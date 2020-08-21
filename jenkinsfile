@@ -8,7 +8,7 @@ pipeline{
                withSonarQubeEnv(credentialsId: 'sonar') {
                 sh 'mvn clean package sonar:sonar'
               }
-              def qualitygate = waitForQualityGate()
+              def status = getStatus()
                 if (qualitygate.status != "OK") {
                         error "Pipeline aborted due to quality gate coverage failure: ${qualitygate.status}"
                 }
@@ -24,4 +24,10 @@ pipeline{
         // }
     }
     
+}
+void getStatus() {
+    timeout(time: 1, unit: 'HOURS') {
+                def qg = waitForQualityGate()
+                echo qg
+              }
 }
