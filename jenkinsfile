@@ -3,34 +3,21 @@ pipeline{
         label "master"
     }
     stages{
-        stage("build the application"){
+        stage("build & SonarQube analysis"){
             steps{
-                sh '''
-                ls
-                '''
+               withSonarQubeEnv(credentialsId: 'sonar') {
+                sh 'mvn clean package sonar:sonar'
+              }
             }
-            post{
-                always{
-                    echo "========always========"
-                }
-                success{
-                    echo "========A executed successfully========"
-                }
-                failure{
-                    echo "========A execution failed========"
-                }
+        }
+        stage("Quality gate check"){
+            steps{
+                timeout(time: 1, unit: 'HOURS') {
+                def qg = waitForQualityGate()
+                echo qg
+              }
             }
         }
     }
-    post{
-        always{
-            echo "========always========"
-        }
-        success{
-            echo "========pipeline executed successfully ========"
-        }
-        failure{
-            echo "========pipeline execution failed========"
-        }
-    }
+    
 }
