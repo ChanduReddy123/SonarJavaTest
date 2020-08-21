@@ -9,5 +9,14 @@ public class HelloWorld {
   void notCovered() {
     System.out.println("This method is not covered by unit tests");
   }
+  void notCovered1() {
+    System.out.println("This method is not covered by unit tests");
+  }
+  void notCovered2() {
+    System.out.println("This method is not covered by unit tests");
+  }
+  void notCovered3() {
+    System.out.println("This method is not covered by unit tests");
+  }
 
 }
