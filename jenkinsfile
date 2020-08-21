@@ -1,5 +1,7 @@
-def myapp0 = ""
-def myapp1 = ""
+def firetv = "OK"
+def flagship = "NOK"
+def modules = "OK"
+def sharedui ="OK"
 pipeline{
     agent{
         label "master"
@@ -52,6 +54,32 @@ pipeline{
                     print("--------")
                 }
             }
+        }
+        stage("Conditonal Check firetv"){
+            when{
+                allOf{
+                    expression{modules == "OK"}
+                    expression{modules == "OK"}
+                    expression{firetv == "OK"}
+                }
+            }
+            steps{
+                echo "FireTV is successfull"
+            }
+            
+        }
+        stage("Conditonal Check flagship"){
+            when{
+                anyOf{
+                    expression{modules == "OK"}
+                    expression{sharedui =="OK"}
+                    expression{flagship == "OK"}
+                }
+            }
+            steps{
+                echo "Flagship is successful"
+            }
+            
         }
     }
     
