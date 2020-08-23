@@ -12,7 +12,7 @@ pipeline{
                build  wait: false, job: 'parameterpipline', parameters: [
                                                                             string(name: 'ArtifactName', value: 'chandu'),
                                                                             string(name: 'BuildNumber', value: "${BUILD_NUMBER}"), 
-                                                                            booleanParam(name: 'appcenterdeploy', value: false),
+                                                                            booleanParam(name: 'appcenterdeploy', value: true),
                                                                             string(name: 'Testing', value: 'empty')
                                                                         ]
             }
