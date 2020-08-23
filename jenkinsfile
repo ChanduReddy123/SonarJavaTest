@@ -21,8 +21,8 @@ pipeline{
         }
         stage("Boolean"){
             when{
-                    expression{ ${appcenterdeploy} == "true" }
-            }
+                    expression{ $"{appcenterdeploy}" == "true" }
+                }
             steps{
                 echo "Deploying ${appcenterdeploy}"
             }
