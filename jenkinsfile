@@ -1,31 +1,31 @@
 pipeline{
     agent any
      parameters {
-        string(name: 'PERSON', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?')
-        booleanParam(name: 'appcenterdeploy', defaultValue: false, description: 'Deploy artifacts to appcenter')
-        text(name: 'BIOGRAPHY', defaultValue: '', description: 'Enter some information about the person')
+        string(name: 'ArtifactName', defaultValue: '', description: 'Name of the artifact to be deployed?')
+        booleanParam(name: 'appcenterdeploy', defaultValue: false, description: 'Deploy artifacts to appcenter?')
+        string(name: 'BuildNumber', defaultValue: '', description: 'Jenkins Build number of CI')
     }
     stages{
-        stage("A"){
+        stage("Artifact"){
             steps{
                 echo "========executing A========"
-                echo "Hello ${params.PERSON}"
+                echo "Hello ${params.ArtifactName}"
             }
         }
-        stage("B"){
+        stage("Build Number"){
             steps{
                 echo "========executing A========"
-                echo "Hello ${params.BIOGRAPHY}"
+                echo "Build number is ${params.BuildNumber}"
             }
         }
-        stage("C"){
+        stage("Boolean"){
             when{
                 allOf{
                     expression{"${appcenterdeploy}" == "true"}
                     }
             }
             steps{
-                echo "working ${appcenterdeploy}"
+                echo "Deploying ${appcenterdeploy}"
             }
         }
     }
