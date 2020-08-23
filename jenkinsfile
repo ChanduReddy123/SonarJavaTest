@@ -1,86 +1,32 @@
-def firetv = "NOK"
-def flagship = "OK"
-def modules = "OK"
-def sharedui ="OK"
 pipeline{
-    agent{
-        label "master"
-    }
+    agent any
     stages{
-        stage("myapp0"){
+        stage("A"){
             steps{
-               withSonarQubeEnv('sonar-1') {
-                sh '''
-                cd myapp
-                mvn clean package sonar:sonar \
-                    -Dsonar.projectKey=myapp0 \
-                    -Dsonar.host.url=http://54.146.74.127:9000 \
-                    -Dsonar.login=1fd6361916254a03a909528a6e825d9516915ae6
-                '''
-              }
-              script{
-                   timeout(time: 1, unit: 'HOURS') {
-                   def response = waitForQualityGate()
-                   myapp0=response.status
-              }
-              }
+                echo "========executing A========"
             }
-        }
-        stage("myapp1"){
-            steps{
-               withSonarQubeEnv('sonar-1') {
-                sh '''
-                cd myapp1
-                mvn clean package sonar:sonar \
-                    -Dsonar.projectKey=myapp1 \
-                    -Dsonar.host.url=http://54.146.74.127:9000 \
-                    -Dsonar.login=1fd6361916254a03a909528a6e825d9516915ae6
-                '''
-              }
-              script{
-                   timeout(time: 1, unit: 'HOURS') {
-                   def response = waitForQualityGate()
-                   myapp1=response.status
-              }
-              }
-            }
-        }
-        stage("status code"){
-            steps{
-                script{
-                    print("--------")
-                    print(myapp0)
-                    print(myapp1)
-                    print("--------")
+            post{
+                always{
+                    echo "========always========"
+                }
+                success{
+                    echo "========A executed successfully========"
+                }
+                failure{
+                    echo "========A execution failed========"
                 }
             }
-        }
-        stage("Conditonal Check firetv"){
-            when{
-                allOf{
-                    expression{modules == "OK"}
-                    expression{modules == "OK"}
-                    expression{firetv == "OK"}
-                }
-            }
-            steps{
-                echo "FireTV is successfull"
-            }
-            
-        }
-        stage("Conditonal Check flagship"){
-            when{
-                allOf{
-                    expression{modules == "OK"}
-                    expression{sharedui == "OK"}
-                    expression{flagship == "OK"}
-                }
-            }
-            steps{
-                echo "Flagship is successful"
-            }
-            
         }
     }
-    
+    post{
+        always{
+            echo "========always========"
+        }
+        success{
+            echo "========pipeline executed successfully ========"
+        }
+        failure{
+            echo "========pipeline execution failed========"
+        }
+    }
 }
