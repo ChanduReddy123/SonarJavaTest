@@ -20,8 +20,9 @@ pipeline{
         }
         stage("C"){
             when{
-
-                expression{"${appcenterdeploy}" == true}
+                allOf{
+                    expression{"${appcenterdeploy}" == true}
+                    }
             }
             steps{
                 echo "working ${appcenterdeploy}"
