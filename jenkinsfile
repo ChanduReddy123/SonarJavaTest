@@ -21,7 +21,7 @@ pipeline{
         stage("C"){
             when{
                 expression{
-                    return appcenterdeploy == true
+                    return "${appcenterdeploy}" == true
                     }
             }
             steps{
