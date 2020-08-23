@@ -9,7 +9,7 @@ pipeline{
         }
         stage("Trigger the paramerter build"){
             steps{
-               build  wait: false, job: 'parameterpipline', parameters: [string(name: 'PERSON', value: 'chandu'), text(name: 'BIOGRAPHY', value: "${BUILD_NUMBER}"), booleanParam(name: 'appcenterdeploy', value: true)]
+               build  wait: false, job: 'parameterpipline', parameters: [string(name: 'PERSON', value: 'chandu'), text(name: 'BIOGRAPHY', value: "${BUILD_NUMBER}"), booleanParam(name: 'appcenterdeploy', value: false)]
             }
         }
     }
