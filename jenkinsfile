@@ -2,7 +2,7 @@ pipeline{
     agent any
      parameters {
         string(name: 'PERSON', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?')
-
+        booleanParam(name: 'appcenterdeploy', defaultValue: false, description: 'Deploy artifacts to appcenter')
         text(name: 'BIOGRAPHY', defaultValue: '', description: 'Enter some information about the person')
     }
     stages{
@@ -16,6 +16,11 @@ pipeline{
             steps{
                 echo "========executing A========"
                 echo "Hello ${params.BIOGRAPHY}"
+            }
+        }
+        stage("C"){
+            when{
+                expression{return ${params.appcenterdeploy}}
             }
         }
     }
