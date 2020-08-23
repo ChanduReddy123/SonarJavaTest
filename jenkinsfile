@@ -22,6 +22,9 @@ pipeline{
             when{
                 expression{return ${params.appcenterdeploy}}
             }
+            steps{
+                echo "working"
+            }
         }
     }
 }
