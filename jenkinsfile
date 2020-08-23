@@ -21,18 +21,17 @@ pipeline{
         }
         stage("Boolean"){
             when{
-                allOf{
-                    expression{"${appcenterdeploy}" == "true"}
-                    }
+                    expression{ "${appcenterdeploy}" == "true" }
             }
             steps{
                 echo "Deploying ${appcenterdeploy}"
             }
         }
-    }
-    stage("Testing"){
+        stage("Testing"){
         steps{
             echo "testing value ${params.Testing}"
         }
     }
+    }
+    
 }
