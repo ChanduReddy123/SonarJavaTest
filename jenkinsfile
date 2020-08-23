@@ -19,11 +19,10 @@ pipeline{
             }
         }
         stage("C"){
-            // when{
-            //     expression{
-            //         return "${appcenterdeploy}" == true
-            //         }
-            // }
+            when{
+
+                expression{"${appcenterdeploy}" == true}
+            }
             steps{
                 echo "working ${appcenterdeploy}"
             }
