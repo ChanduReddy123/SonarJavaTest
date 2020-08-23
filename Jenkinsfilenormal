@@ -1,0 +1,16 @@
+pipeline{
+    agent any
+    stages{
+        stage("A"){
+            steps{
+                echo "========executing A========"
+                echo "Hello ${params.PERSON}"
+            }
+        }
+        stage("Trigger the paramerter build"){
+            steps{
+               build quietPeriod: 25, wait: false, job: 'parameterpipline', parameters: [string(name: 'PERSON', value: 'chandu'), text(name: 'BIOGRAPHY', value: 'this is for testing purpose')]
+            }
+        }
+    }
+}
