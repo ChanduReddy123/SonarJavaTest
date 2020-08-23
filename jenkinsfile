@@ -20,7 +20,7 @@ pipeline{
         }
         stage("C"){
             when{
-                expression{return $appcenterdeploy}
+                expression{return ${appcenterdeploy}}
             }
             steps{
                 echo "working"
