@@ -15,3 +15,4 @@ env.flagship = "NOK"
 env.modules = "NOK"
 env.sharedui = "NOK"
 }
+return this
