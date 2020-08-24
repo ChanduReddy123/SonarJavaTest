@@ -1,0 +1,49 @@
+@Library("shared-lib") _
+
+pipeline{
+    agent{
+        label "master"
+    }
+    stages{
+        stage("Load Variables"){
+            steps{
+                def props = load "${env.WORKSPACE}/pipelineEnvVars.groovy"
+                props.qa()
+            }
+        }
+        stage("Print variables loaded"){
+            steps{
+                script{
+                    echo "name is $name"
+                    echo "age is $age"
+                    echo "firetv $firetv"
+                    echo "flagship $flagship"
+                }
+            }
+        }
+        stage("myapp0"){
+            steps{
+               withSonarQubeEnv('sonar-1') {
+                sh '''
+                cd myapp
+                '''
+            }
+            script{
+                   age=25
+                   firetv="OK"
+                   flagship="OK"
+                }
+            }
+        }
+        stage("print the updated values"){
+            steps{
+                script{
+                    echo "name is $name"
+                    echo "age is $age"
+                    echo "firetv $firetv"
+                    echo "flagship $flagship"
+                }
+            }
+        }
+    }
+}

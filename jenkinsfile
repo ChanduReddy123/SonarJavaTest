@@ -4,7 +4,6 @@ pipeline{
         string(name: 'ArtifactName', defaultValue: '', description: 'Name of the artifact to be deployed?')
         booleanParam(name: 'appcenterdeploy', defaultValue: false, description: 'Deploy artifacts to appcenter?')
         string(name: 'BuildNumber', defaultValue: '', description: 'Jenkins Build number of CI')
-        string(name: 'Testing', defaultValue: '', description: 'this is just for testing purpose')
     }
     stages{
         stage("Artifact"){
