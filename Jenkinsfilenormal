@@ -1,7 +1,7 @@
 pipeline{
     agent any
     stages{
-        stage("A"){
+        stage("Build"){
             steps{
                 echo "========executing A========"
                 echo "Hello ${params.PERSON}"

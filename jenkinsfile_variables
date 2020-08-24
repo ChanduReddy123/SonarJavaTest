@@ -7,8 +7,10 @@ pipeline{
     stages{
         stage("Load Variables"){
             steps{
-                def props = load "${env.WORKSPACE}/pipelineEnvVars.groovy"
-                props.qa()
+                script{
+                    def props = load "${env.WORKSPACE}/pipelineEnvVars.groovy"
+                    props.qa()
+                }
             }
         }
         stage("Print variables loaded"){
