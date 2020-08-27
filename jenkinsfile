@@ -27,9 +27,10 @@ pipeline{
             steps{
                 withSonarQubeEnv('sonar-1') {
                     sh """
-                    sonar-scanner -Dproject.settings=myapp/sonar-project.properties
+                    
                     """
                     script{
+                        sonar-scanner -Dproject.settings=myapp/sonar-project.properties
                         timeout(time: 1, unit: 'HOURS') {
                             def response = waitForQualityGate()
                             modules=response.status
