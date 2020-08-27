@@ -1,7 +1,7 @@
-def firetv = "NOK"
+def firetv = "OK"
 def flagship = "OK"
-def modules = "OK"
-def sharedui ="OK"
+def modules = "NOK" 
+def sharedui ="NOK"
 pipeline{
     agent{
         label "master"
@@ -21,7 +21,7 @@ pipeline{
               script{
                    timeout(time: 1, unit: 'HOURS') {
                    def response = waitForQualityGate()
-                   myapp0=response.status
+                   modules=response.status
               }
               }
             }
@@ -40,7 +40,7 @@ pipeline{
               script{
                    timeout(time: 1, unit: 'HOURS') {
                    def response = waitForQualityGate()
-                   myapp1=response.status
+                   sharedui=response.status
               }
               }
             }
@@ -49,8 +49,8 @@ pipeline{
             steps{
                 script{
                     print("--------")
-                    print(myapp0)
-                    print(myapp1)
+                    print(modules)
+                    print(sharedui)
                     print("--------")
                 }
             }
@@ -59,7 +59,7 @@ pipeline{
             when{
                 allOf{
                     expression{modules == "OK"}
-                    expression{modules == "OK"}
+                    expression{sharedui == "OK"}
                     expression{firetv == "OK"}
                 }
             }
