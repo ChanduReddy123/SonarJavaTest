@@ -1,36 +1,86 @@
+def firetv = "NOK"
+def flagship = "OK"
+def modules = "OK"
+def sharedui ="OK"
 pipeline{
-    agent any
-     parameters {
-        string(name: 'ArtifactName', defaultValue: '', description: 'Name of the artifact to be deployed?')
-        booleanParam(name: 'appcenterdeploy', defaultValue: false, description: 'Deploy artifacts to appcenter?')
-        string(name: 'BuildNumber', defaultValue: '', description: 'Jenkins Build number of CI')
+    agent{
+        label "master"
     }
     stages{
-        stage("Artifact"){
+        stage("myapp0"){
             steps{
-                echo "========executing A========"
-                echo "Hello ${params.ArtifactName}"
+               withSonarQubeEnv('sonar-1') {
+                sh '''
+                cd myapp
+                mvn clean package sonar:sonar \
+                    -Dsonar.projectKey=myapp0 \
+                    -Dsonar.host.url=http://18.235.234.59:9000 \
+                    -Dsonar.login=1fd6361916254a03a909528a6e825d9516915ae6
+                '''
+              }
+              script{
+                   timeout(time: 1, unit: 'HOURS') {
+                   def response = waitForQualityGate()
+                   myapp0=response.status
+              }
+              }
             }
         }
-        stage("Build Number"){
+        stage("myapp1"){
             steps{
-                echo "========executing A========"
-                echo "Build number is ${params.BuildNumber}"
+               withSonarQubeEnv('sonar-1') {
+                sh '''
+                cd myapp1
+                mvn clean package sonar:sonar \
+                    -Dsonar.projectKey=myapp1 \
+                    -Dsonar.host.url=http://18.235.234.59:9000 \
+                    -Dsonar.login=1fd6361916254a03a909528a6e825d9516915ae6
+                '''
+              }
+              script{
+                   timeout(time: 1, unit: 'HOURS') {
+                   def response = waitForQualityGate()
+                   myapp1=response.status
+              }
+              }
             }
         }
-        stage("Boolean"){
-            when{
-                    expression{ "${appcenterdeploy}" == "true" }
+        stage("status code"){
+            steps{
+                script{
+                    print("--------")
+                    print(myapp0)
+                    print(myapp1)
+                    print("--------")
                 }
-            steps{
-                echo "Deploying ${appcenterdeploy}"
             }
         }
-        stage("Testing"){
-        steps{
-            echo "testing value ${params.Testing}"
+        stage("Conditonal Check firetv"){
+            when{
+                allOf{
+                    expression{modules == "OK"}
+                    expression{modules == "OK"}
+                    expression{firetv == "OK"}
+                }
+            }
+            steps{
+                echo "FireTV is successfull"
+            }
+            
         }
-    }
+        stage("Conditonal Check flagship"){
+            when{
+                allOf{
+                    expression{modules == "OK"}
+                    expression{sharedui == "OK"}
+                    expression{flagship == "OK"}
+                }
+            }
+            steps{
+                echo "Flagship is successful"
+            }
+            
+        }
     }
     
 }
