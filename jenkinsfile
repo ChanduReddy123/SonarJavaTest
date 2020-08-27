@@ -29,9 +29,11 @@ pipeline{
                     sh """
                     sonar-scanner -Dproject.settings=myapp/sonar-project.properties
                     """
-                    timeout(time: 1, unit: 'HOURS') {
-                        def response = waitForQualityGate()
-                        modules=response.status
+                    script{
+                        timeout(time: 1, unit: 'HOURS') {
+                            def response = waitForQualityGate()
+                            modules=response.status
+                        }
                     }
                 }
             }
@@ -42,9 +44,11 @@ pipeline{
                     sh """
                     sonar-scanner -Dproject.settings=myapp1/sonar-project.properties
                     """
-                    timeout(time: 1, unit: 'HOURS') {
-                        def response = waitForQualityGate()
-                        sharedui=response.status
+                    script{
+                        timeout(time: 1, unit: 'HOURS') {
+                            def response = waitForQualityGate()
+                            sharedui=response.status
+                        }
                     }
                 }
             }
