@@ -66,29 +66,17 @@ pipeline{
                 }
             }
         }
-        stage("Conditonal Check firetv"){
+        stage("publish"){
             when{
                 allOf{
                     expression{modules == "OK"}
                     expression{sharedui == "OK"}
                     expression{firetv == "OK"}
-                }
-            }
-            steps{
-                echo "FireTV is successfull"
-            }
-            
-        }
-        stage("Conditonal Check flagship"){
-            when{
-                allOf{
-                    expression{modules == "OK"}
-                    expression{sharedui == "OK"}
                     expression{flagship == "OK"}
                 }
             }
             steps{
-                echo "Flagship is successful"
+                echo "publish both firetv and flagship"
             }
             
         }
