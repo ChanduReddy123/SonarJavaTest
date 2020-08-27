@@ -7,42 +7,46 @@ pipeline{
         label "master"
     }
     stages{
-        stage("myapp0"){
+        stage("Building myapp0"){
             steps{
-               withSonarQubeEnv('sonar-1') {
                 sh '''
                 cd myapp
-                mvn clean package sonar:sonar \
-                    -Dsonar.projectKey=myapp0 \
-                    -Dsonar.host.url=http://18.235.234.59:9000 \
-                    -Dsonar.login=1fd6361916254a03a909528a6e825d9516915ae6
+                mvn clean package
                 '''
-              }
-              script{
-                   timeout(time: 1, unit: 'HOURS') {
-                   def response = waitForQualityGate()
-                   modules=response.status
-              }
-              }
             }
         }
-        stage("myapp1"){
+        stage("Building myapp1"){
             steps{
-               withSonarQubeEnv('sonar-1') {
                 sh '''
                 cd myapp1
-                mvn clean package sonar:sonar \
-                    -Dsonar.projectKey=myapp1 \
-                    -Dsonar.host.url=http://18.235.234.59:9000 \
-                    -Dsonar.login=1fd6361916254a03a909528a6e825d9516915ae6
+                mvn clean package
                 '''
               }
-              script{
-                   timeout(time: 1, unit: 'HOURS') {
-                   def response = waitForQualityGate()
-                   sharedui=response.status
-              }
-              }
+        }
+        stage("Scanning myapp0"){
+            steps{
+                withSonarQubeEnv('sonar-1') {
+                    sh """
+                    sonar-scanner -Dproject.settings=myapp/sonar-project.properties
+                    """
+                    timeout(time: 1, unit: 'HOURS') {
+                        def response = waitForQualityGate()
+                        modules=response.status
+                    }
+                }
+            }
+        }
+        stage("Scanning myapp1"){
+            steps{
+                withSonarQubeEnv('sonar-1') {
+                    sh """
+                    sonar-scanner -Dproject.settings=myapp1/sonar-project.properties
+                    """
+                    timeout(time: 1, unit: 'HOURS') {
+                        def response = waitForQualityGate()
+                        sharedui=response.status
+                    }
+                }
             }
         }
         stage("status code"){
