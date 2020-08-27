@@ -7,30 +7,31 @@ pipeline{
         label "master"
     }
     stages{
-        stage("Building myapp0"){
-            steps{
-                sh '''
-                cd myapp
-                mvn clean package
-                '''
-            }
-        }
-        stage("Building myapp1"){
-            steps{
-                sh '''
-                cd myapp1
-                mvn clean package
-                '''
-              }
-        }
+        // stage("Building myapp0"){
+        //     steps{
+        //         sh '''
+        //         cd myapp
+        //         mvn clean package
+        //         '''
+        //     }
+        // }
+        // stage("Building myapp1"){
+        //     steps{
+        //         sh '''
+        //         cd myapp1
+        //         mvn clean package
+        //         '''
+        //       }
+        // }
         stage("Scanning myapp0"){
             steps{
                 withSonarQubeEnv('sonar-1') {
                     sh """
-                    
+                        cd myapp
+                        mvn clean package sonar:sonar -Dproject.settings=myapp/sonar-project.properties
                     """
                     script{
-                        sonar-scanner -Dproject.settings=myapp/sonar-project.properties
+                        // sonar-scanner -Dproject.settings=myapp/sonar-project.properties
                         timeout(time: 1, unit: 'HOURS') {
                             def response = waitForQualityGate()
                             modules=response.status
@@ -43,7 +44,8 @@ pipeline{
             steps{
                 withSonarQubeEnv('sonar-1') {
                     sh """
-                    sonar-scanner -Dproject.settings=myapp1/sonar-project.properties
+                    cd myapp1
+                    mvn clean package sonar:sonar -Dproject.settings=myapp1/sonar-project.properties
                     """
                     script{
                         timeout(time: 1, unit: 'HOURS') {
