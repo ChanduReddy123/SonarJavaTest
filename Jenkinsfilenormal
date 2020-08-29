@@ -1,4 +1,5 @@
 //ok this is from remote repo
+// this is multi file stash
 pipeline{
     agent any
     stages{
