@@ -6,7 +6,7 @@ pipeline{
         stage("Build"){
             steps{
                 echo "========executing A========"
-                echo "Hello ${params.PERSON}"
+                echo "Hello ${params.PERSON} testing"
             }
         }
         stage("Trigger the paramerter build"){
