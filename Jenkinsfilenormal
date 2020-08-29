@@ -1,3 +1,4 @@
+//ok this is from remote repo
 pipeline{
     agent any
     stages{
